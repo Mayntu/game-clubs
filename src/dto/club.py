@@ -23,3 +23,9 @@ class CreateClubRequest(BaseModel):
     title : str
     description : Optional[str]
     address : str
+
+
+class UpdateClubRequest(BaseModel):
+    title : Optional[str]
+    description : Optional[str]
+    address : Optional[str]
