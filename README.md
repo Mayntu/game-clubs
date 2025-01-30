@@ -74,7 +74,7 @@ _заполняем .env_
 ### 7️ Запустить приложение
 
 ```sh
-python -m pip install -r requirements.txt
+python app.py
 ```
 
 ## ⚡ Обычный запуск проекта
