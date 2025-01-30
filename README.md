@@ -119,4 +119,4 @@ python app.py
 └── 📄 README.md          # Документация
 
 📝 TODO
-
+...
