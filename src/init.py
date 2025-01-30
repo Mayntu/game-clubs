@@ -1,11 +1,23 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from tortoise.contrib.fastapi import register_tortoise
 
 from src.config import CONFIG, TORTOISE_ORM
 
 def create_app() -> FastAPI:
+    origins : list[str] = [
+        "*"
+    ]
 
     app = FastAPI(docs_url="/", title=CONFIG.APP.NAME, version=CONFIG.APP.VERSION)
+    
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"]
+    )
 
     register_tortoise(
         app,
