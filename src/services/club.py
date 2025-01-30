@@ -20,7 +20,10 @@ async def create_club(request : CreateClubRequest) -> ClubBase:
         club : Club = await Club.create(
             title=request.title,
             description=request.description,
-            address=request.address
+            address=request.address,
+            coord_lat=request.coord_lat,
+            coord_lon=request.coord_lon,
+            city=request.city
         )
     except:
         raise HTTPException(status_code=400, detail="not valid club parameters request")
@@ -32,6 +35,11 @@ async def find_club(club_id : str) -> ClubBase:
     club : Club = await get_club(club_id=club_id)
     
     return ClubBase.model_validate(club)
+
+async def find_clubs_by_city(city : str) -> list[ClubBase]:
+    clubs : list[Club] = await Club.filter(city=city)
+    
+    return [ClubBase.model_validate(club) for club in clubs]
 
 
 async def update_club(club_id : str, request : UpdateClubRequest) -> ClubBase:

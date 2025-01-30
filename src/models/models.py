@@ -14,6 +14,9 @@ class Club(Model):
     description = fields.TextField(null=True)
     rating = fields.FloatField(null=True)
     address = fields.CharField(max_length=255)
+    coord_lat = fields.FloatField(null=False, default = 0.0) # X
+    coord_lon = fields.FloatField(null=False, default = 0.0) # Y
+    city = fields.CharField(max_length=255, null=False)
 
     created_at = fields.DatetimeField(auto_now_add=True)
     updated_at = fields.DatetimeField(auto_now=True)

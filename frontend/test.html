@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <style>
+        .my-div-icon {
+            background: url('https://cdn.freebiesupply.com/logos/large/2x/club-1-logo-png-transparent.png') no-repeat;
+            background-size: contain;
+            width: 240px;
+            height: 240px;
+            opacity: 0;
+        }
+        .club-icon {
+            background: url('https://img.icons8.com/?size=100&id=7891&format=png&color=000000') no-repeat;
+            background-size: contain;
+        }
+    </style>
+
+    <div id="map" style="width:500px; height:400px"></div>
+    
+    <script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
+    <script>
+        const BAKEND_URL = "http://127.0.0.1:5000";
+
+        async function getClubs() {
+            let result = await fetch(
+                `${BAKEND_URL}/api/v1/club/city/Karagandy`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            ).then(response => response.json()).then(data => {
+                data.forEach(club => {
+                    let divClub = DG.divIcon({  iconSize: [24, 24], className: 'club-icon'});
+                    DG.marker([club.coord_lat, club.coord_lon], {'icon': divClub}).addTo(map).bindPopup(club.id);
+                    
+                DG.marker([club.coord_lat, club.coord_lon], {'icon': divClub}).addTo(map).on('click', function() {
+                    window.location.href = `${BAKEND_URL}/api/v1/club/${club.id}`;
+                }).bindPopup(club.id);
+                });
+            });
+        }
+
+        DG.then(function () {
+            map = DG.map('map', {
+                center: [49.8, 73.1],
+                zoom: 11,
+            });
+
+            var myIcon = DG.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/3990/3990804.png', iconRetinaUrl: 'https://cdn-icons-png.flaticon.com/512/3990/3990804.png', iconSize: [24, 24], iconAnchor: [-12, -12] });
+            var divIcon = DG.icon({ iconUrl: 'https://cdn.freebiesupply.com/logos/large/2x/club-1-logo-png-transparent.png', iconSize: [24, 24], iconAnchor: [-0, -0], className: 'my-div-icon'});
+            DG.marker([49.8, 73.1], {'icon': myIcon}).addTo(map);
+            DG.marker([49.82, 73.1], {'icon': divIcon}).addTo(map);
+            DG.marker([49.81, 73.1]).addTo(map).bindPopup('Вы кликнули по мне!');
+            getClubs();
+        });
+    </script>
+</body>
+</html>

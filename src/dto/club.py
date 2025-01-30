@@ -9,6 +9,9 @@ class ClubBase(BaseModel):
     description: Optional[str]
     rating: Optional[float]
     address: Optional[str]
+    coord_lat: float
+    coord_lon: float
+    city: str
     created_at: datetime
     updated_at: datetime
     deleted_at: Optional[datetime]
@@ -23,6 +26,9 @@ class CreateClubRequest(BaseModel):
     title : str
     description : Optional[str]
     address : str
+    coord_lat: float
+    coord_lon: float
+    city : str
 
 
 class UpdateClubRequest(BaseModel):
